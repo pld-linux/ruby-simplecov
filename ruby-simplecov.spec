@@ -1,19 +1,27 @@
 #
 # Conditional build:
-%bcond_without	doc			# don't build ri/rdoc
+%bcond_without	doc	# ri/rdoc documentation
 
 %define pkgname simplecov
 Summary:	Code coverage for Ruby 1.9+
+Summary(pl.UTF-8):	Pokrycie kodu dla języka Ruby 1.9+
 Name:		ruby-%{pkgname}
-Version:	0.11.1
+Version:	0.14.1
 Release:	1
 License:	MIT
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
-# Source0-md5:	151ac8250d824c62e383d94e53932423
+# Source0-md5:	dc307ae2de2bd70c9c64ca3fd5ae61a5
 Group:		Development/Languages
 URL:		https://rubygems.org/gems/simplecov
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.665
+BuildRequires:	ruby >= 1:1.8.7
+BuildRequires:	ruby-rdoc
+Requires:	ruby >= 1:1.8.7
+Requires:	ruby-docile >= 1.1.0
+Requires:	ruby-json >= 1.8
+Requires:	ruby-json < 3
+Requires:	ruby-simplecov-html >= 0.10.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -21,29 +29,33 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Code coverage for Ruby 1.9+ with a powerful configuration library
 and automatic merging of coverage across test suites.
 
+%description -l pl.UTF-8
+Pokrycie kodu dla języka Ruby 1.9+ z potężną biblioteką konfiguracyjną
+oraz automatycznym łączeniem pokrycia z różnych zbiorów testów.
+
 %package rdoc
-Summary:	HTML documentation for %{pkgname}
-Summary(pl.UTF-8):	Dokumentacja w formacie HTML dla %{pkgname}
+Summary:	HTML documentation for Ruby %{pkgname} module
+Summary(pl.UTF-8):	Dokumentacja w formacie HTML dla moduły języka Ruby %{pkgname}
 Group:		Documentation
 Requires:	ruby >= 1:1.8.7-4
 
 %description rdoc
-HTML documentation for %{pkgname}.
+HTML documentation for Ruby %{pkgname} module.
 
 %description rdoc -l pl.UTF-8
-Dokumentacja w formacie HTML dla %{pkgname}.
+Dokumentacja w formacie HTML dla moduły języka Ruby %{pkgname}.
 
 %package ri
-Summary:	ri documentation for %{pkgname}
-Summary(pl.UTF-8):	Dokumentacja w formacie ri dla %{pkgname}
+Summary:	ri documentation for Ruby %{pkgname} module
+Summary(pl.UTF-8):	Dokumentacja w formacie ri dla modułu języka Ruby %{pkgname}
 Group:		Documentation
 Requires:	ruby
 
 %description ri
-ri documentation for %{pkgname}.
+ri documentation for Ruby %{pkgname} module.
 
 %description ri -l pl.UTF-8
-Dokumentacji w formacie ri dla %{pkgname}.
+Dokumentacja w formacie ri dla modułu języka Ruby %{pkgname}.
 
 %prep
 %setup -q -n %{pkgname}-%{version}
@@ -80,7 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG.md README.md
+%doc CHANGELOG.md MIT-LICENSE README.md
 %{ruby_vendorlibdir}/%{pkgname}.rb
 %{ruby_vendorlibdir}/%{pkgname}
 %{ruby_specdir}/%{pkgname}-%{version}.gemspec
